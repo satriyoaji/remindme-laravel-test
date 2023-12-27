@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\AuthController;
+use \App\Http\Controllers\Api\ReminderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,13 @@ use \App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::post('/session', [AuthController::class, 'login']);
-Route::put('/session', [AuthController::class, 'refreshToken']);
+Route::post('/session', [AuthController::class, 'login'])->name('generate.token');;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::put('/session', [AuthController::class, 'refreshToken'])->name('refresh.token');;
+    Route::apiResource('reminders', ReminderController::class);
+//    Route::get('/user', function (Request $request) {
+//        return $request->user();
+//    });
 //    Route::post('/logout', [AuthController::class, 'logout']);
-//    Route::apiResource('/reminders', ReminderController::class);
 });
